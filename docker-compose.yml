@@ -1,0 +1,12 @@
+version: '3.6'
+services:
+  base:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+    ports:
+      - 5000:5000
+    environment:
+      - FLASK_APP=project/__init__.py
