@@ -1,6 +1,7 @@
 import socket
+import numpy as np
 from consts import HOST, PORT 
-from helper import get_packets, convert
+from helper import get_packets, transform
 
 def main():
 
@@ -13,10 +14,18 @@ def main():
     except Exception as e:
         print("Cannot connect to the server:", e)
  
-
-    raw_msg = sock.recv(2048)   
+    # Decode
+    raw_msg = sock.recv(2048)
     list_packets = get_packets(raw_msg)
-    convert(list_packets)
+    hex_transformed_packets = transform(list_packets)
+    single_array = np.concatenate(hex_transformed_packets, axis=None)   # Step 3
+
+    print(hex_transformed_packets)
+    print(single_array)
+
+    
+
+
 
 
 

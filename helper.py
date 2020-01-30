@@ -1,6 +1,11 @@
 import re
 import binascii
+from consts import TABLE_1_INVERSE
 
+#### DECODING MESSAGE
+
+
+# Step 1
 def get_packets(raw_msg):
     hex_msg = raw_msg.hex()
     hex_list = split_string(hex_msg, 2)
@@ -13,10 +18,8 @@ def get_packets(raw_msg):
     return list_packets
 
 
-def convert(list_packets):
-
-    print(list_packets)
-    print('\n\n\n')
+# Step 2
+def transform(list_packets):
 
     for i, packet in enumerate(list_packets):
 
@@ -26,16 +29,20 @@ def convert(list_packets):
 
         packet_5bit = split_string(concatenated_packet, 5)
 
-        print(packet_5bit)
+        for j, element in enumerate(packet_5bit):
+            packet_5bit[j] = TABLE_1_INVERSE[element]
 
-        # for j, element in enumerate(packet_5bit):
-        #     print()
+        concatenated_packet = ''.join(packet_5bit)
+        packet_8bits = split_string(concatenated_packet, 8)
         
-        list_packets[i] = concatenated_packet
-        
+        hex_packet = [bin_to_hex(bin_element) for bin_element in packet_8bits]
 
-    # print(list_packets)
+        list_packets[i] = hex_packet
+    
+    return list_packets
 
+
+#### HELPER FUNCTIONS
 
 
 # Get sublists with N elements
@@ -46,6 +53,9 @@ def get_sublists(lst, n):
 
 def hex_to_binary(hex_string):
     return bin(int(hex_string, 16))[2:].zfill(8)
+
+def bin_to_hex(bin_string):
+    return hex(int(bin_string, 2))
 
 
 # Split String into list of N characters || Example: 'olhaesssecara' => ['olha', 'esse', 'cara']
