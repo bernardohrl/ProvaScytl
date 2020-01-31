@@ -2,7 +2,7 @@ import socket
 import numpy as np
 from consts import HOST, PORT 
 from decode import get_packets, transform, decode_string
-from encode import pad_message, invert_format, findPrime, xor
+from encode import pad_message, invert_format, findPrime, xor, adds_extremities
 
 def main():
 
@@ -17,13 +17,13 @@ def main():
  
     # Decode
     raw_msg = sock.recv(2048)
-    list_packets = get_packets(raw_msg)
+    list_packets, list_end_start = get_packets(raw_msg)
     hex_transformed_packets = transform(list_packets)
     single_array = np.concatenate(hex_transformed_packets, axis=None)   # Step 3
     decoded_string = decode_string(single_array)
 
 
-    print("Decoded Message (formated):", decoded_string, "\n\n")
+    print("Decoded Message (formated):", decoded_string, "\n")
 
 
     # Encode
@@ -33,14 +33,22 @@ def main():
     lists_hex = invert_format(padded)
     prime_factor = findPrime()
     lists_xor = xor(lists_hex, prime_factor)
-    # result = adds_packages(lists_xor)
+    result_list = adds_extremities(lists_xor, list_end_start)
 
+    result_conc = ''.join(result_list)
+    result = result_conc.replace('0x', ' ').lstrip()
 
-    print(lists_xor)
+    print('Result: ' + result)
 
+    byte_array = bytearray.fromhex(result)
+    sock.send(byte_array)
+    response = sock.recv(2048)
+    
 
-
-
+    if(response.hex() == "c657557a7a9e21"):
+        print('\n\n\t\t SUCCESS\n\n\n')
+    if(response.hex() == "c652d745d29e21"):
+        print('\n\n\t\t FAIL\n\n\n')
 
 
 main()

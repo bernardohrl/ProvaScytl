@@ -1,4 +1,5 @@
 import binascii
+import numpy as np
 from consts import TABLE_1, PORT, MAX_NUMBER_1_BYTE
 from helper import split_string, hex_to_binary, get_sublists, bin_to_hex, largest_prime_factor
 
@@ -47,7 +48,6 @@ def invert_format(string):
     for i, list_ in enumerate(lists_hex):
         for j, element in enumerate(list_):
             lists_hex[i][j] = bin_to_hex(element)
-            # lists_hex[i][j] = hex(int(element, 2))
 
             
     return lists_hex    
@@ -67,7 +67,7 @@ def findPrime():
     return hex(largest)[2:]
     
 
-
+# Step 5
 def xor(lists, prime):
     for i, list_ in enumerate(lists):
         for j, element in enumerate(list_):
@@ -76,3 +76,15 @@ def xor(lists, prime):
     return lists
 
 
+# Step 6
+def adds_extremities(content, extremities):
+    list_concatenated = []
+    lists = content
+    
+    for i, list_ in enumerate(lists):
+        list_.insert(0, '0x' + extremities[i][0])
+        list_.append('0x' +extremities[i][1])
+
+        list_concatenated = list_concatenated + list_      
+
+    return list_concatenated

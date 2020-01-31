@@ -9,10 +9,11 @@ def get_packets(raw_msg):
 
     list_packets = list(get_sublists(hex_list, 7))
 
-    # Removes first and last elements from each lits
-    list_packets = [packet[1:6] for packet in list_packets]
+    # Separates lists first and last elements
+    lists_end_start = [[packet[0], packet[6]] for packet in list_packets]
+    list_packets_content = [packet[1:6] for packet in list_packets]
 
-    return list_packets
+    return list_packets_content, lists_end_start
 
 
 # Step 2
@@ -59,3 +60,5 @@ def decode_string(array_hex):
     replaced = formated.replace(' ', '_') # Step 7
 
     return replaced
+
+    
