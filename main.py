@@ -1,7 +1,8 @@
 import socket
 import numpy as np
 from consts import HOST, PORT 
-from helper import get_packets, transform, decode_string
+from decode import get_packets, transform, decode_string
+from encode import pad_message, invert_format
 
 def main():
 
@@ -28,10 +29,11 @@ def main():
     # Encode
     inverted_string = decoded_string[::-1]
 
-    # padded = pad_message(inverted_string)
+    padded = pad_message(inverted_string)
+    lists_hex = invert_format(padded)
 
 
-
+    print(lists_hex)
 
 
 
