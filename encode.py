@@ -71,13 +71,16 @@ def findPrime():
 def xor(lists, prime):
     for i, list_ in enumerate(lists):
         for j, element in enumerate(list_):
-            lists[i][j] = hex(int(element, 16) ^ int(prime, 16))
+            xor_int = int(element, 16) ^ int(prime, 16)
+            xor_hex = '0x{0:02x}'.format(xor_int)
+            lists[i][j] = xor_hex
 
     return lists
 
 
 # Step 6
 def adds_extremities(content, extremities):
+
     list_concatenated = []
     lists = content
     
@@ -85,6 +88,6 @@ def adds_extremities(content, extremities):
         list_.insert(0, '0x' + extremities[i][0])
         list_.append('0x' +extremities[i][1])
 
-        list_concatenated = list_concatenated + list_      
+        list_concatenated = list_concatenated + list_ 
 
     return list_concatenated

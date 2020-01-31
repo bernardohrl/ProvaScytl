@@ -31,16 +31,17 @@ def main():
 
     padded = pad_message(inverted_string)
     lists_hex = invert_format(padded)
+
     prime_factor = findPrime()
     lists_xor = xor(lists_hex, prime_factor)
+
     result_list = adds_extremities(lists_xor, list_end_start)
-
     result_conc = ''.join(result_list)
-    result = result_conc.replace('0x', ' ').lstrip()
-
-    print('Result: ' + result)
-
+    result = result_conc.replace('0x', ' ').lstrip()    
     byte_array = bytearray.fromhex(result)
+
+    
+    
     sock.send(byte_array)
     response = sock.recv(2048)
     
