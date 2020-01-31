@@ -28,3 +28,14 @@ def lower_and_upper(string):
         else:
             formated.append(string[i].lower())
     return ''.join(formated)
+
+
+# Brute force algorithm
+def largest_prime_factor(n):
+    i = 2
+    while i * i <= n:
+        if n % i:
+            i += 1
+        else:
+            n //= i
+    return n

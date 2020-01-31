@@ -2,7 +2,7 @@ import socket
 import numpy as np
 from consts import HOST, PORT 
 from decode import get_packets, transform, decode_string
-from encode import pad_message, invert_format
+from encode import pad_message, invert_format, findPrime, xor
 
 def main():
 
@@ -23,7 +23,7 @@ def main():
     decoded_string = decode_string(single_array)
 
 
-    print("Decoded Message:", decoded_string, "\n\n")
+    print("Decoded Message (formated):", decoded_string, "\n\n")
 
 
     # Encode
@@ -31,9 +31,13 @@ def main():
 
     padded = pad_message(inverted_string)
     lists_hex = invert_format(padded)
+    prime_factor = findPrime()
+    lists_xor = xor(lists_hex, prime_factor)
+    # result = adds_packages(lists_xor)
 
 
-    print(lists_hex)
+    print(lists_xor)
+
 
 
 

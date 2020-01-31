@@ -1,6 +1,6 @@
 import binascii
-from consts import TABLE_1
-from helper import split_string, hex_to_binary, get_sublists, bin_to_hex
+from consts import TABLE_1, PORT, MAX_NUMBER_1_BYTE
+from helper import split_string, hex_to_binary, get_sublists, bin_to_hex, largest_prime_factor
 
 
 # Step 1
@@ -51,5 +51,28 @@ def invert_format(string):
 
             
     return lists_hex    
+
+# Step 4
+def findPrime():
+    
+    largest = largest_prime_factor(PORT)
+    temp_port = PORT
+
+    while(largest > MAX_NUMBER_1_BYTE):
+        temp_port = PORT / largest
+        largest = largest_prime_factor(temp_port)
+
+
+
+    return hex(largest)[2:]
+    
+
+
+def xor(lists, prime):
+    for i, list_ in enumerate(lists):
+        for j, element in enumerate(list_):
+            lists[i][j] = hex(int(element, 16) ^ int(prime, 16))
+
+    return lists
 
 
